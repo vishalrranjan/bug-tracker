@@ -1,5 +1,5 @@
 "use client";
-import { Button, Callout, Text, TextField } from "@radix-ui/themes";
+import { Button, Callout, Spinner, Text, TextField } from "@radix-ui/themes";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import "easymde/dist/easymde.min.css";
 import dynamic from "next/dynamic";
@@ -21,6 +21,8 @@ type FormData = z.infer<typeof bugValidationSchema>;
 
 const NewIssuePage = () => {
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const {
     register,
     control,
@@ -34,10 +36,12 @@ const NewIssuePage = () => {
   const submitFormData: SubmitHandler<FormData> = async (data) => {
     try {
       await axios.post("/api/bug", data);
+      setIsSubmitting(true);
       router.push("/issues");
     } catch (error) {
+      setIsSubmitting(false);
       setError("Failed to create bug. Please try again.");
-      console.error("Error creating bug:", error);
+      //   console.error("Error creating bug:", error);
     }
   };
 
@@ -64,7 +68,9 @@ const NewIssuePage = () => {
 
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
 
-        <Button type="submit">Submit New Bug</Button>
+        <Button disabled={isSubmitting} type="submit">
+          Submit New Bug {isSubmitting && <Spinner />}
+        </Button>
       </form>
     </div>
   );
