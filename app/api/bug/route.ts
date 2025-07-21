@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { prisma } from "@/prisma/client"; // Adjust the import path as necessary
-import { bugValidationSchema } from "../../../ValidationSchemas/bugValidationSchema";
+import {
+  bugUpdateSchema,
+  bugValidationSchema,
+} from "../../../ValidationSchemas/bugValidationSchema";
 
 export async function POST(request: NextRequest) {
   const { title, description } = await request.json();
@@ -32,4 +35,51 @@ export async function POST(request: NextRequest) {
   //       "Content-Type": "application/json",
   //     },
   //   });
+}
+
+export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const id = searchParams.get("bugId");
+
+  if (id) {
+    // If id is provided, return the bug with that id
+    const bug = await prisma.bug.findUnique({
+      where: { id: Number(id) },
+    });
+    if (!bug) {
+      return NextResponse.json({ error: "Bug not found" }, { status: 404 });
+    }
+    return NextResponse.json(bug, { status: 200 });
+  }
+
+  // If no id, return all bugs
+  const bugs = await prisma.bug.findMany();
+  return NextResponse.json(bugs, { status: 200 });
+}
+
+export async function PUT(request: NextRequest) {
+  const { id, status } = await request.json();
+
+  const validations = bugUpdateSchema.safeParse({ id, status });
+
+  if (!validations.success) {
+    return new Response(JSON.stringify({ error: validations.error.issues }), {
+      status: 400,
+    });
+  }
+
+  try {
+    const updatedBug = await prisma.bug.update({
+      where: { id },
+      data: { status },
+    });
+
+    return NextResponse.json(updatedBug, { status: 200 });
+  } catch (error) {
+    // console.log(error);
+    return NextResponse.json(
+      { error: "Bug not found or update failed." },
+      { status: 404 }
+    );
+  }
 }
