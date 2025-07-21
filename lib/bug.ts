@@ -16,12 +16,15 @@ export async function fetchBugs() {
     cache: "no-store",
   });
   const data = await res.json();
-
+  // Sort by createdAt descending (latest first)
+  const sortedData = data.sort((a: Bug, b: Bug) => {
+    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+  });
   if (!res.ok) {
     throw new Error("Failed to fetch bugs");
   }
-  bugData = data;
-  return data;
+  bugData = sortedData;
+  return sortedData;
 }
 
 export function getBugStatusCount() {

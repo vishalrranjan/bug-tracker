@@ -1,11 +1,10 @@
 import BugCards from "@/component/BugCards";
 import StatusColorCoded from "@/component/BugStatusColorCoded";
 import SimpleBarChart from "@/component/SimpleBarChart";
-import { fetchBugs, Bug } from "@/lib/bug";
+import { fetchBugs, Bug, getBugStatusCount } from "@/lib/bug";
 export default async function Home() {
   const bugData = await fetchBugs();
-
-  // console.log("Bug Data:", bugData);
+  const bugStatusCount = await getBugStatusCount();
 
   return (
     <div className="flex justify-center gap-3 min-h-auto w-full">
@@ -13,8 +12,8 @@ export default async function Home() {
         <div className="flex gap-3">
           <BugCards />
         </div>
-        <div>
-          <SimpleBarChart />
+        <div className="h-auto border border-gray-200 rounded-md mt-4 px-4 py-6">
+          <SimpleBarChart bugStatusCount={bugStatusCount} />
         </div>
       </div>
       <div className="w-1/2 border border-gray-200 rounded-md ">

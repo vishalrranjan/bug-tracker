@@ -14,9 +14,13 @@ const NavBar = () => {
   ];
   return (
     <nav className="flex items-center justify-between p-4 bg-gray-100 shadow-md">
-      <Link href="/" className="text-blue-500 hover:underline">
-        <AiFillBug />
-      </Link>
+      <div>
+        <Link href="/" className="text-blue-500 hover:underline text-2xl">
+          <AiFillBug className="inline-block mr-2" />
+        </Link>
+        <span className="text-lg font-semibold">Bug Tracker</span>
+      </div>
+
       <ul className="flex space-x-4">
         {links.map((link) => (
           <li key={link.href}>

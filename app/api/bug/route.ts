@@ -5,6 +5,7 @@ import {
   bugUpdateSchema,
   bugValidationSchema,
 } from "../../../ValidationSchemas/bugValidationSchema";
+import { revalidatePath } from "next/cache";
 
 export async function POST(request: NextRequest) {
   const { title, description } = await request.json();
@@ -29,12 +30,6 @@ export async function POST(request: NextRequest) {
   return NextResponse.json(newBug, {
     status: 201,
   });
-  //   return new Response(JSON.stringify({ title, description }), {
-  //     status: 201,
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   });
 }
 
 export async function GET(request: NextRequest) {
@@ -69,14 +64,17 @@ export async function PUT(request: NextRequest) {
   }
 
   try {
-    const updatedBug = await prisma.bug.update({
+    await prisma.bug.update({
       where: { id },
       data: { status },
     });
-
-    return NextResponse.json(updatedBug, { status: 200 });
+    revalidatePath(`/issues/${id}`);
+    return NextResponse.json(
+      { message: "Bug status updated successfully." },
+      { status: 200 }
+    );
   } catch (error) {
-    // console.log(error);
+    console.log(error);
     return NextResponse.json(
       { error: "Bug not found or update failed." },
       { status: 404 }
