@@ -12,7 +12,8 @@ const BugTable = ({ bugData }: { bugData: Bug[] }) => {
         <Table.Row>
           <Table.ColumnHeaderCell>Issue</Table.ColumnHeaderCell>
           <Table.ColumnHeaderCell>Status</Table.ColumnHeaderCell>
-          <Table.ColumnHeaderCell>Created</Table.ColumnHeaderCell>
+          <Table.ColumnHeaderCell>Reported On</Table.ColumnHeaderCell>
+          <Table.ColumnHeaderCell>Updated On</Table.ColumnHeaderCell>
           <Table.ColumnHeaderCell>Action</Table.ColumnHeaderCell>
         </Table.Row>
       </Table.Header>
@@ -30,9 +31,17 @@ const BugTable = ({ bugData }: { bugData: Bug[] }) => {
                 <StatusColorCoded status={bug.status} />
               </Table.Cell>
               <Table.Cell>{new Date(bug.createdAt).toDateString()}</Table.Cell>
+              <Table.Cell>{new Date(bug.updatedAt).toDateString()}</Table.Cell>
               <Table.Cell>
-                <Link href={`/issues/${bug.id}`}>
-                  <FaEye color="gray" size={20} className="cursor-pointer" />
+                <Link
+                  href={`/issues/${bug.id}`}
+                  className="text-blue-500 hover:text-blue-700 font-semibold"
+                >
+                  View{" "}
+                  <FaEye
+                    size={30}
+                    className="cursor-pointer inline-block pl-2"
+                  />
                 </Link>
               </Table.Cell>
             </Table.Row>

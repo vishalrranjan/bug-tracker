@@ -17,9 +17,13 @@ const SelectBugStatus: React.FC<SelectBugStatusProps> = ({
   defaultValue,
 }) => {
   return (
-    <Select.Root onValueChange={setSelectedStatus} defaultValue={defaultValue}>
-      <Select.Trigger />
-      <Select.Content>
+    <Select.Root
+      size={"3"}
+      onValueChange={setSelectedStatus}
+      defaultValue={defaultValue}
+    >
+      <Select.Trigger color="orange" variant="soft" />
+      <Select.Content color="orange">
         <Select.Group>
           <Select.Label>Status</Select.Label>
           {statusOptions?.map((option) => (
