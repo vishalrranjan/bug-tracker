@@ -25,7 +25,6 @@ const SelectBugStatus: React.FC<SelectBugStatusProps> = ({
       <Select.Trigger color="orange" variant="soft" />
       <Select.Content color="orange">
         <Select.Group>
-          <Select.Label>Status</Select.Label>
           {statusOptions?.map((option) => (
             <Select.Item key={option.value} value={option.value}>
               {option.label}
