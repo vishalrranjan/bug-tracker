@@ -29,7 +29,7 @@ const NavBar = () => {
               className={classNames({
                 "text-zinc-900": isActive(link.href),
                 "text-zinc-500": !isActive(link.href),
-                "hover:text-zinc-800 transition-colors": true,
+                "hover:text-zinc-800 transition-colors font-semibold": true,
               })}
             >
               {link.label}

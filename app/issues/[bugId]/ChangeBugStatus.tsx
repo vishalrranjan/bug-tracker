@@ -42,13 +42,13 @@ const ChangeBugStatus = ({ bugId, currentStatus }: SelectBugStatusProps) => {
 
   return (
     <Select.Root
+      size={"3"}
       onValueChange={handleStatusChange}
       defaultValue={selectedStatus}
     >
       <Select.Trigger color="crimson" variant="soft" />
       <Select.Content color="crimson">
         <Select.Group>
-          <Select.Label>Change Status</Select.Label>
           {statusOptions?.map((option) => (
             <Select.Item key={option.value} value={option.value}>
               {option.label}

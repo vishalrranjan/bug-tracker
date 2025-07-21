@@ -21,17 +21,9 @@ const Page = async ({ params }: PageProps) => {
 
   return (
     <div>
-      <div className="flex justify-between mb-4">
-        <h1>Issue Details </h1>
+      <div className="flex justify-between mb-6">
+        <p className="font-semibold text-indigo-600 text-xl">Bug Details </p>
         <div className="flex gap-3">
-          <div className="flex items-center gap-2">
-            <p>Update Status:</p>
-            <ChangeBugStatus
-              bugId={bugDetails.id}
-              currentStatus={bugDetails.status}
-            />
-          </div>
-
           <Button className="cursor-pointer">
             <FaEdit />
             Edit Issue
@@ -42,12 +34,22 @@ const Page = async ({ params }: PageProps) => {
           </Button>
         </div>
       </div>
-      <div>
-        <p className="font-semibold text-2xl mb-2">{bugDetails.title}</p>
+      <div className="border border-gray-200 bg-white drop-shadow-sm rounded-md p-6">
+        <div className="mb-4 flex justify-between">
+          <p className="font-semibold text-2xl mb-2">{bugDetails.title}</p>
+          <div className="flex items-center gap-2  px-3 py-1">
+            <p className=" text-indigo-500 font-semibold ">Update Status:</p>
+            <ChangeBugStatus
+              bugId={bugDetails.id}
+              currentStatus={bugDetails.status}
+            />
+          </div>
+        </div>
         <div className="flex items-center gap-2 text-gray-500 mb-4">
           <BugStatusColorCoded status={bugDetails.status} />
           <p>{new Date(bugDetails.createdAt).toDateString()}</p>
         </div>
+        <span className="font-semibold text-gray-600 block">Description:</span>
         <div className="border border-gray-200 rounded-md px-4 p-6 text-gray-600">
           {bugDetails.description}
         </div>
